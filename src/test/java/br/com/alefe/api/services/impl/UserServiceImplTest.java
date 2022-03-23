@@ -3,6 +3,7 @@ package br.com.alefe.api.services.impl;
 import br.com.alefe.api.domain.User;
 import br.com.alefe.api.domain.dto.UserDTO;
 import br.com.alefe.api.repositories.UserRepository;
+import br.com.alefe.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,10 +22,11 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class UserServiceImplTest {
 
-    public static final Integer ID      = 1;
-    public static final String NAME     = "Valdir";
-    public static final String EMAIL    = "valdir@mail.com";
-    public static final String PASSWORD = "123";
+public static final Integer ID                       = 1;
+    public static final String NAME                  = "Valdir";
+    public static final String EMAIL                 = "valdir@mail.com";
+    public static final String PASSWORD              = "123";
+    public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -57,6 +59,20 @@ class UserServiceImplTest {
         assertEquals(PASSWORD, response.getPassword());
         assertEquals(User.class, response.getClass());
         assertNotNull(response);
+    }
+
+    @Test
+    void whenFindByIdThenReturnAnObjectNotFoundException(){
+        when(userRepository.findById(anyInt()))
+                .thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
+
+        try {
+            userService.findById(ID);
+        } catch (Exception ex){
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
+        }
+
     }
 
     @Test
