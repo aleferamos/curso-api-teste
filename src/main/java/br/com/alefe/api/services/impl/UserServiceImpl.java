@@ -1,6 +1,7 @@
 package br.com.alefe.api.services.impl;
 
 import br.com.alefe.api.domain.User;
+import br.com.alefe.api.domain.dto.UserDTO;
 import br.com.alefe.api.repositories.UserRepository;
 import br.com.alefe.api.services.UserService;
 import br.com.alefe.api.services.exceptions.ObjectNotFoundException;
@@ -25,6 +26,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Integer create(UserDTO user) {
+        User userSave = new User(user);
+        return userRepository.save(userSave).getId();
     }
 
 
