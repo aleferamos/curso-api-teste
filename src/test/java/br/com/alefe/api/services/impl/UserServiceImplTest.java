@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class UserServiceImplTest {
 
-public static final Integer ID                       = 1;
+    public static final Integer ID                       = 1;
     public static final String NAME                  = "Valdir";
     public static final String EMAIL                 = "valdir@mail.com";
     public static final String PASSWORD              = "123";
