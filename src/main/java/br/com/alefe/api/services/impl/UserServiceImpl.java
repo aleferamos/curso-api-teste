@@ -30,18 +30,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer create(UserDTO user) {
+    public User create(UserDTO user) {
         User userSave = new User(user);
         findByEmail(user);
-        return userRepository.save(userSave).getId();
+        return userRepository.save(userSave);
     }
 
     @Override
-    public Integer update(UserDTO user) {
+    public User update(UserDTO user) {
         findByEmail(user);
         User userSave = new User(user);
 
-        return userRepository.save(userSave).getId();
+        return userRepository.save(userSave);
     }
 
     @Override

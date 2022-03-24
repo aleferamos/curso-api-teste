@@ -1,5 +1,6 @@
 package br.com.alefe.api.resources;
 
+import br.com.alefe.api.domain.User;
 import br.com.alefe.api.domain.dto.UserDTO;
 import br.com.alefe.api.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -34,14 +35,14 @@ public class UserResource {
     }
 
     @PostMapping
-    public ResponseEntity<Integer> create(@RequestBody UserDTO user){
+    public ResponseEntity<User> create(@RequestBody UserDTO user){
         var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(userService.create(user)).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Integer> update(@RequestBody UserDTO user, @PathVariable Integer id){
+    public ResponseEntity<User> update(@RequestBody UserDTO user, @PathVariable Integer id){
         user.setId(id);
         return ResponseEntity.ok().body(userService.update(user));
     }
