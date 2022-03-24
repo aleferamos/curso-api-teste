@@ -30,8 +30,8 @@ public static final Integer ID                       = 1;
     public static final String PASSWORD              = "123";
     public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
     public static final int INDEX = 0;
-    public static final String E_MAIL_JÁ_CADASTRADO_NO_SISTEMA = "E-mail já cadastrado no sistema";
-    public static final String E_MAIL_JA_CADASTRADO_NO_SISTEMA = E_MAIL_JÁ_CADASTRADO_NO_SISTEMA;
+    public static final String E_MAIL_JA_CADASTRADO_NO_SISTEMA = "E-mail já cadastrado no sistema";
+
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -120,7 +120,7 @@ public static final Integer ID                       = 1;
             userService.create(userDTO);
         } catch (Exception ex){
             assertEquals(DataIntegratyViolationException.class, ex.getClass());
-            assertEquals(E_MAIL_JÁ_CADASTRADO_NO_SISTEMA, ex.getMessage());
+            assertEquals(E_MAIL_JA_CADASTRADO_NO_SISTEMA, ex.getMessage());
         }
 
         try {
@@ -154,7 +154,7 @@ public static final Integer ID                       = 1;
             userService.update(userDTO);
         } catch (Exception ex){
             assertEquals(DataIntegratyViolationException.class, ex.getClass());
-            assertEquals(E_MAIL_JÁ_CADASTRADO_NO_SISTEMA, ex.getMessage());
+            assertEquals(E_MAIL_JA_CADASTRADO_NO_SISTEMA, ex.getMessage());
         }
 
         try {
@@ -171,6 +171,17 @@ public static final Integer ID                       = 1;
         doNothing().when(userRepository).deleteById(anyInt());
         userService.delete(ID);
         verify(userRepository, times(0)).deleteById(anyInt());
+    }
+
+    @Test
+    void deleteWithObjectNotFoundException(){
+        when(userRepository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
+        try {
+            userService.delete(ID);
+        } catch (Exception ex){
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
+        }
     }
 
     private void startUser(){
