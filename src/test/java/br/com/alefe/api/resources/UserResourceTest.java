@@ -10,8 +10,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
@@ -23,10 +26,11 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class UserResourceTest {
 
-    public static final Integer ID                       = 1;
+    public static final Integer ID                   = 1;
     public static final String NAME                  = "Valdir";
     public static final String EMAIL                 = "valdir@mail.com";
     public static final String PASSWORD              = "123";
+    public static final int INDEX = 0;
 
     @InjectMocks
     private UserResource userResource;
@@ -65,7 +69,23 @@ class UserResourceTest {
     }
 
     @Test
-    void findAll() {
+    void whenFindAllThenReturnListOfUserDTO() {
+        when(userService.findAll()).thenReturn(List.of(user));
+        when(modelMapper.map(any(), any())).thenReturn(userDTO);
+
+        var response = userResource.findAll();
+
+        assertNotNull(response);
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertNotNull(response.getBody());
+        assertEquals(ArrayList.class, response.getBody().getClass());
+        assertEquals(UserDTO.class, response.getBody().get(INDEX).getClass());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertEquals(ID, response.getBody().get(INDEX).getId());
+        assertEquals(NAME, response.getBody().get(INDEX).getName());
+        assertEquals(EMAIL, response.getBody().get(INDEX).getEmail());
+        assertEquals(PASSWORD, response.getBody().get(INDEX).getPassword());
     }
 
     @Test
