@@ -131,7 +131,17 @@ public static final Integer ID                       = 1;
     }
 
     @Test
-    void update() {
+    void whenUpdateThenReturnSuccess() {
+        when(userRepository.save(any())).thenReturn(user);
+
+        var response = userService.update(userDTO);
+
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NAME, response.getName());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(PASSWORD, response.getPassword());
     }
 
     @Test
