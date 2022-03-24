@@ -89,11 +89,36 @@ class UserResourceTest {
     }
 
     @Test
-    void create() {
+    void whenCreateThenReturnCreated() {
+        when(userService.create(any())).thenReturn(user);
+
+        var response = userResource.create(userDTO);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertNotNull(response.getHeaders().get("Location"));
+
     }
 
     @Test
-    void update() {
+    void whenUpdateThenReturnSuccess() {
+        when(userService.update(any())).thenReturn(user);
+
+        userDTO.setId(ID);
+        var response = userResource.update(userDTO, ID);
+
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(ID, response.getBody().getId());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(User.class, response.getBody().getClass());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertEquals(ID, response.getBody().getId());
+        assertEquals(NAME, response.getBody().getName());
+        assertEquals(EMAIL, response.getBody().getEmail());
+
     }
 
     @Test

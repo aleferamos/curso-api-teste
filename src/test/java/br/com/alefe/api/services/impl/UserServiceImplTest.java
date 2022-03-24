@@ -61,7 +61,6 @@ class UserServiceImplTest {
         assertEquals(ID, response.getId());
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
-        assertEquals(PASSWORD, response.getPassword());
         assertEquals(User.class, response.getClass());
         assertNotNull(response);
     }
@@ -94,7 +93,6 @@ class UserServiceImplTest {
         assertEquals(ID, response.get(INDEX).getId());
         assertEquals(NAME, response.get(INDEX).getName());
         assertEquals(EMAIL, response.get(INDEX).getEmail());
-        assertEquals(PASSWORD, response.get(INDEX).getPassword());
     }
 
     @Test
@@ -108,7 +106,6 @@ class UserServiceImplTest {
         assertEquals(ID, response.getId());
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
-        assertEquals(PASSWORD, response.getPassword());
     }
 
     @Test
@@ -142,7 +139,6 @@ class UserServiceImplTest {
         assertEquals(ID, response.getId());
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
-        assertEquals(PASSWORD, response.getPassword());
     }
 
     @Test
