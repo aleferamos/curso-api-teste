@@ -1,5 +1,6 @@
 package br.com.alefe.api.domain;
 
+import br.com.alefe.api.domain.dto.UserDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,4 +21,11 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
+
+    public User(UserDTO user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+    }
 }
